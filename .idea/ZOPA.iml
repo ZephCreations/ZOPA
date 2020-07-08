@@ -5,7 +5,7 @@
       <excludeFolder url="file://$MODULE_DIR$/ZOPA-venv" />
       <excludeFolder url="file://$MODULE_DIR$/ZOPA_venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8 (ZOPA)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (ZOPA) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
