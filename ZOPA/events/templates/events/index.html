@@ -5,16 +5,16 @@
     <title>Events Index</title>
 </head>
 <body>
-{% if upcoming_events_list %}
+{% if events_list %}
     <ul>
-    {% for event in upcoming_events_list %}
-        <li><a href="{% url 'events:detail' event.id %}">{{ event.event_text }}</a></li>
+    {% for event in events_list %}
+        <li><a href="{% url 'events:detail' event.id %}">{{ event.event_text }} (Starts: {{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }})</a></li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No events are available.</p>
 {% endif %}
 <br>
-<a href="{% url 'events:new_event' %}">Create new Event</a>
+<a href="{% url 'events:create_event' %}">Create new Event</a>
 </body>
 </html>

@@ -7,23 +7,22 @@ from .forms import EventForm
 from .models import Event
 # Create your views here.
 
+
 class IndexView(generic.ListView):
     template_name = 'events/index.html'
-    context_object_name = 'upcoming_events_list'
+    context_object_name = 'events_list'
 
     def get_queryset(self):
-        return Event.objects.order_by('-start_date')[:5]
+        return Event.objects.order_by('-start_date')
+
 
 class DetailView(generic.DetailView):
     model = Event
     template_name = 'events/detail.html'
 
+
 class EditView(generic.DetailView):
     model = Event
-
-def New_event(request):
-    form = EventForm()
-    return render(request, 'events/new_event.html', {'form': form})
 
 
 def create_event(request):
@@ -31,22 +30,15 @@ def create_event(request):
         form = EventForm(request.POST)
         if form.is_valid():
             form.save()
-
-            print("valid form")
             return HttpResponseRedirect(reverse('events:index'))
-        print(form)
-
-        print("form not valid")
-
-
-
     else:
         form = EventForm()
 
     return render(request, 'events/new_event.html', {
-        'error_message': "Please ensure all values are entered and correct.",
+        #'error_message': "Please ensure all values are entered and correct.",
         'form': form,
     })
+
 
 
 '''
