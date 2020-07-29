@@ -8,11 +8,13 @@
 {% if upcoming_events_list %}
     <ul>
     {% for event in upcoming_events_list %}
-        <li><a href="/events/{{ event.id }}/">{{ event.event_text }}</a></li>
+        <li><a href="{% url 'events:detail' event.id %}">{{ event.event_text }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No events are available.</p>
 {% endif %}
+<br>
+<a href="{% url 'events:new_event' %}">Create new Event</a>
 </body>
 </html>
