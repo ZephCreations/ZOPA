@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
@@ -25,17 +25,24 @@ class EditView(generic.DetailView):
     model = Event
 
 
-def create_event(request):
-    if request.method == 'POST':
-        form = EventForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('events:index'))
-    else:
-        form = EventForm()
+def create_event(request, event_id=None):
+    if event_id:
+        event = get_object_or_404(Event, pk=event_id)
+        template_name = 'events/edit_event.html'
 
-    return render(request, 'events/new_event.html', {
-        #'error_message': "Please ensure all values are entered and correct.",
+    else:
+        event = Event()
+        template_name = 'events/new_event.html'
+
+    form = EventForm(request.POST or None, instance=event)
+
+    if request.POST and form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('events:index'))
+
+    return render(request, template_name, {
+        # 'error_message': "Please ensure all values are entered and correct.",
+        'event': event,
         'form': form,
     })
 
