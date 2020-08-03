@@ -11,6 +11,7 @@
 <p>Has it started? {{ event.has_started }}</p>
 <p>Has it finished? {{ event.has_finished }}</p>
 
+<a href="{% url 'events:edit_event' event.id %}">Edit</a>
 
 
 </body>
