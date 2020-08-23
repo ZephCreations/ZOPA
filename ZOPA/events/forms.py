@@ -1,5 +1,6 @@
-from django.forms import ModelForm, DateTimeInput
+from django.forms import ModelForm
 from .models import Event
+from .widgets import BootstrapDateTimePickerInput
 
 
 class EventForm(ModelForm):
@@ -15,6 +16,10 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = '__all__'
+        widgets = {
+            'end_date': BootstrapDateTimePickerInput(),
+            'start_date': BootstrapDateTimePickerInput()
+        }
         # widgets = {
         #    'end_date': DateTimeInput(attrs={'type': 'datetime-local'}),
         #    'start_date': DateTimeInput(attrs={'type': 'datetime-local'}),
