@@ -3,46 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Events Index</title>
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}">
 </head>
 <body>
+<h1>Events</h1>
+<table>
 
-<p>Upoming Events:</p>
-{% if upcoming_events %}
-    <ul>
-    {% for event in upcoming_events %}
-        <li><a href="{% url 'events:detail' event.id %}">{{ event.event_text }} (Starts: {{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }})</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No upcoming events are available.</p>
-{% endif %}
+    <tr>
+        <th><a href="?o=1">Events:</a></th>
+        <th>Starts:</th>
+        <th>Ends:</th>
+    </tr>
 
-<hr>
-<p>Past Events:</p>
-{% if past_events %}
+    {% if events_list_all %}
+        {% for event in events_list_all %}
+            <tr>
+            <td><a href="{% url 'events:detail' event.id %}">{{ event.event_text }}</a></td>
+            <td>Starts: {{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }}</td>
+            <td>Ends: {{ event.end_date|date:"D d M Y" }} {{ event.end_date|time:"H:i a" }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <p>No events are available.</p>
+    {% endif %}
 
-    <ul>
-    {% for event in past_events %}
-        <li><a href="{% url 'events:detail' event.id %}">{{ event.event_text }} (Starts: {{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }})</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No past events are available.</p>
-{% endif %}
+</table>
 
-<hr>
-<p>All Events:</p>
-{% if events_list_all %}
-    <ul>
-    {% for event in events_list_all %}
-        <li><a href="{% url 'events:detail' event.id %}">{{ event.event_text }} (Starts: {{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }})</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No events are available.</p>
-{% endif %}
 
-<hr>
 <a href="{% url 'events:create_event' %}">Create new Event</a>
 </body>
 </html>

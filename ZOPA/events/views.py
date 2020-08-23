@@ -17,13 +17,13 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return Event.objects.order_by('-start_date')
 
-    def get_context_data(self, *args, **kwargs):
+    """def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         print(timezone.now())
         context['past_events'] = Event.objects.filter(end_date__date__lte=timezone.now())
         context['upcoming_events'] = Event.objects.filter(start_date__date__gte=timezone.now())
 
-        return context
+        return context"""
 
 
 class DetailView(generic.DetailView):

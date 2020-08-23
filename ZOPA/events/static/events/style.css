@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+}
+h1 {
+    font-family: "Calibri";
+    font-size: 48px;
+}
+
+/* Table */
+table {
+  width:100%;
+  padding-left: 10px;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+tr:nth-child(even) {
+  background-color: #eee;
+}
+tr:nth-child(odd) {
+ background-color: #fff;
+}
+th {
+  background-color: #5e015e;
+  color: white;
+}
+td a:link, a:visited {
+    text-decoration: none;
+    color: blue;
+}
+td a:hover {
+    color: darkblue;
+}
+td a:active {
+    text-decoration: underline;
+}
