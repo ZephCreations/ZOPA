@@ -1,20 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ event }} Detail</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
-</head>
-<body>
-<h1>{{ event }}</h1>
-<p>Starts: {{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }}</p>
-<p>Ends: {{ event.end_date|date:"D d M Y" }} {{ event.end_date|time:"H:i a" }}</p>
-<p>Has it started? {{ event.has_started }}</p>
-<p>Has it finished? {{ event.has_finished }}</p>
+{% extends 'base.html' %}
+{% block title %}{{ event }} Detail{% endblock title %}
 
-<a href="{% url 'events:edit_event' event.id %}">Edit</a>
+{% block content %}
+    <h1>{{ event }}</h1>
+    <p>Starts: {{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }}</p>
+    <p>Ends: {{ event.end_date|date:"D d M Y" }} {{ event.end_date|time:"H:i a" }}</p>
+    <p>Has it started? {{ event.has_started }}</p>
+    <p>Has it finished? {{ event.has_finished }}</p>
+
+    <a href="{% url 'events:edit_event' event.id %}">Edit</a>
+
+{% endblock content %}
 
 
-</body>
-</html>
+

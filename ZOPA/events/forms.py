@@ -18,7 +18,7 @@ class EventForm(ModelForm):
         fields = '__all__'
         widgets = {
             'end_date': BootstrapDateTimePickerInput(),
-            'start_date': BootstrapDateTimePickerInput()
+            'start_date': BootstrapDateTimePickerInput(),
         }
         # widgets = {
         #    'end_date': DateTimeInput(attrs={'type': 'datetime-local'}),

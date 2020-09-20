@@ -1,0 +1,29 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+    height: 100vh;
+}
+#content {
+    padding-top: 20px;
+}
+/* Set gray background color and 100% height */
+.sidenav {
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+body > .container-fluid {
+    padding: 55px 15px 0;
+}
+
+
+
+

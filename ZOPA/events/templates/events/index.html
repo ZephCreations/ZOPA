@@ -1,37 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Events Index</title>
-    {% load static %}
-<!--    <link href="../assets/css/bootstrap.css" rel="stylesheet">-->
-    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
-</head>
-<body>
-<h1>Events</h1>
-<table>
+{% extends 'base.html' %}
+{% block title %}Events Index{% endblock title %}
 
-    <tr>
-        <th><a href="?o=1">Events:</a></th>
-        <th>Starts:</th>
-        <th>Ends:</th>
-    </tr>
+{% block content %}
+    <h1>Events</h1>
+    <table>
 
-    {% if events_list_all %}
-        {% for event in events_list_all %}
-            <tr>
-            <td><a href="{% url 'events:detail' event.id %}">{{ event.event_text }}</a></td>
-            <td>Starts: {{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }}</td>
-            <td>Ends: {{ event.end_date|date:"D d M Y" }} {{ event.end_date|time:"H:i a" }}</td>
-            </tr>
-        {% endfor %}
-    {% else %}
-        <p>No events are available.</p>
-    {% endif %}
+        <tr>
+            <th>Events:</th>
+            <th>Starts:</th>
+            <th>Ends:</th>
+        </tr>
 
-</table>
+        {% if events_list_all %}
+            {% for event in events_list_all %}
+                <tr>
+                <td><a href="{% url 'events:detail' event.id %}">{{ event.event_text }}</a></td>
+                <td>{{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }}</td>
+                <td>{{ event.end_date|date:"D d M Y" }} {{ event.end_date|time:"H:i a" }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <p>No events are available.</p>
+        {% endif %}
+
+    </table>
 
 
-<a href="{% url 'events:create_event' %}">Create new Event</a>
-</body>
-</html>
+    <a href="{% url 'events:create_event' %}">Create new Event</a>
+
+{% endblock content %}
