@@ -65,15 +65,15 @@ class EventModelTests(TestCase):
         self.assertIs(event_now.has_finished(), True)
 
 
-def create_event(event_text, start_days, end_days):
+def create_event(event_name, start_days, end_days):
     """
-    Create an event with the given `event_text` and started the
+    Create an event with the given `event_name` and started the
     given number of `days` offset to now (negative for events started
     in the past, positive for events that have yet to be started).
     """
     start_time = timezone.now() + datetime.timedelta(days=start_days)
     end_time = timezone.now() + datetime.timedelta(days=end_days)
-    return Event.objects.create(event_text=event_text, start_date=start_time, end_date=end_time)
+    return Event.objects.create(event_name=event_name, start_date=start_time, end_date=end_time)
 
 
 class EventIndexViewTests(TestCase):

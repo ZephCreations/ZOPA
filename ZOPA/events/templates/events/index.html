@@ -14,7 +14,7 @@
         {% if events_list_all %}
             {% for event in events_list_all %}
                 <tr>
-                <td><a href="{% url 'events:detail' event.id %}">{{ event.event_text }}</a></td>
+                <td><a href="{% url 'events:detail' event.id %}">{{ event.event_name }}</a></td>
                 <td>{{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }}</td>
                 <td>{{ event.end_date|date:"D d M Y" }} {{ event.end_date|time:"H:i a" }}</td>
                 </tr>

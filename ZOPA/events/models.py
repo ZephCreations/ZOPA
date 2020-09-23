@@ -14,12 +14,10 @@ class Event(models.Model):
         ('Y', 'Yearly'),
     ]
 
-    event_text = models.CharField(max_length=200)
+    event_name = models.CharField(max_length=200)
     start_date = models.DateTimeField('start date/time')
     end_date = models.DateTimeField('end date/time')
     repeat_by = models.CharField('Repeat event', blank=True, max_length=1, choices=REPEAT_BY_CHOICES)
-
-
 
     def has_started(self):
         now = timezone.now()
@@ -31,6 +29,21 @@ class Event(models.Model):
         return now >= self.end_date
 
     def __str__(self):
-        return self.event_text
+        return self.event_name
 
 
+class Task(models.Model):
+    PRIORITY_CHOICES = [
+        ('H', 'High'),
+        ('M', 'Medium'),
+        ('L', 'Low'),
+    ]
+
+    task_name = models.CharField(max_length=200)
+    task_description = models.TextField(blank=True)
+    due_date = models.DateTimeField('Date to be completed by')
+    time_for_completion = models.DurationField('Time needed to complete task', default='00:00:00', help_text='Format: HH:MM:SS')
+    priority = models.CharField(max_length=1, choices=PRIORITY_CHOICES, default='M')
+
+    def __str__(self):
+        return self.task_name

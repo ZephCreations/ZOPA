@@ -26,13 +26,9 @@ class IndexView(generic.ListView):
         return context"""
 
 
-class DetailView(generic.DetailView):
+class EventDetailView(generic.DetailView):
     model = Event
-    template_name = 'events/detail.html'
-
-
-class EditView(generic.DetailView):
-    model = Event
+    template_name = 'events/event_detail.html'
 
 
 def delete_event(request, event_id):
@@ -76,6 +72,6 @@ def create_event(request):
         })
 
     else:
-        Event.objects.create(event_text=name, start_date=starts, end_date=ends)
+        Event.objects.create(event_name=name, start_date=starts, end_date=ends)
         return HttpResponseRedirect(reverse('events:index'))
 '''
