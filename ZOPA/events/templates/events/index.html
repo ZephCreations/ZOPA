@@ -9,7 +9,6 @@
             <th>Events:</th>
             <th>Starts:</th>
             <th>Ends:</th>
-            <th>Repeats:</th>
         </tr>
 
         {% if events_list_all %}
@@ -18,7 +17,6 @@
                 <td><a href="{% url 'events:detail' event.id %}">{{ event.event_text }}</a></td>
                 <td>{{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }}</td>
                 <td>{{ event.end_date|date:"D d M Y" }} {{ event.end_date|time:"H:i a" }}</td>
-                <td>{{ event.get_repeat_by_display }}</td>
                 </tr>
             {% endfor %}
         {% else %}

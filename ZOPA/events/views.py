@@ -35,6 +35,12 @@ class EditView(generic.DetailView):
     model = Event
 
 
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    event.delete()
+    return HttpResponseRedirect(reverse('events:index'))
+
+
 def create_event(request, event_id=None):
     if event_id:
         event = get_object_or_404(Event, pk=event_id)

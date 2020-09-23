@@ -10,6 +10,8 @@
     <p>Repeats: {{ event.get_repeat_by_display }}</p>
 
     <a href="{% url 'events:edit_event' event.id %}">Edit</a>
+    <br>
+    <a href="{% url 'events:delete_event' event.id %}">Delete</a>
 
 {% endblock content %}
 
