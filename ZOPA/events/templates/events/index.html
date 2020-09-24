@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Events Index{% endblock title %}
+{% block title %}Calendar Index{% endblock title %}
 
 {% block content %}
     <h1>Events</h1>
@@ -11,10 +11,10 @@
             <th>Ends:</th>
         </tr>
 
-        {% if events_list_all %}
-            {% for event in events_list_all %}
+        {% if events_list %}
+            {% for event in events_list %}
                 <tr>
-                <td><a href="{% url 'events:detail' event.id %}">{{ event.event_name }}</a></td>
+                <td><a href="{% url 'events:event_detail' event.id %}">{{ event.event_name }}</a></td>
                 <td>{{ event.start_date|date:"D d M Y" }} {{ event.start_date|time:"H:i a" }}</td>
                 <td>{{ event.end_date|date:"D d M Y" }} {{ event.end_date|time:"H:i a" }}</td>
                 </tr>
@@ -25,7 +25,34 @@
 
     </table>
 
-
     <a href="{% url 'events:create_event' %}">Create new Event</a>
+
+    <br><br><hr>
+    <h1>Tasks</h1>
+    <table>
+
+        <tr>
+            <th>Tasks:</th>
+            <th>Priority:</th>
+            <th>Due:</th>
+            <th>Time needed to complete task:</th>
+        </tr>
+
+        {% if tasks_list %}
+            {% for task in tasks_list %}
+                <tr>
+                    <td><a href="{% url 'events:task_detail' task.id %}">{{ task.task_name }}</a></td>
+                    <td>{{ task.get_priority_display }}</td>
+                    <td>{{ task.due_date|date:"D d M Y" }} {{ task.due_date|time:"H:i a" }}</td>
+                    <td>{{ task.time_for_completion }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <p>No tasks are available.</p>
+        {% endif %}
+
+    </table>
+
+    <a href="{% url 'events:create_task' %}">Create new Task</a>
 
 {% endblock content %}

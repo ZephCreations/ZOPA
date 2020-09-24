@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}New Event{% endblock title %}
+{% block title %}Edit {{ task }}{% endblock title %}
 
 {% block links %}
     <!-- Moment.js -->
@@ -12,15 +12,12 @@
 {% endblock links %}
 
 {% block content %}
-    <h1>New Event</h1>
-    <hr>
+    <h1>Edit '{{ task }}'</h1>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <form action="{% url 'events:create_event' %}" method="post">
+    <form action="{% url 'events:edit_task' task.id %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
 
-        <input type="submit" value="Create">
+        <input type="submit" value="Save">
     </form>
 {% endblock content %}
-
-

@@ -1,29 +1,26 @@
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
-from .forms import EventForm
+from .forms import EventForm, TaskForm
 
-from .models import Event
+from .models import Event, Task
 # Create your views here.
 
 
 class IndexView(generic.ListView):
     template_name = 'events/index.html'
-    context_object_name = 'events_list_all'
 
     def get_queryset(self):
         return Event.objects.order_by('-start_date')
 
-    """def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        print(timezone.now())
-        context['past_events'] = Event.objects.filter(end_date__date__lte=timezone.now())
-        context['upcoming_events'] = Event.objects.filter(start_date__date__gte=timezone.now())
-
-        return context"""
+        context['events_list'] = Event.objects.order_by('-start_date')
+        context['tasks_list'] = Task.objects.order_by('-priority')
+        return context
 
 
 class EventDetailView(generic.DetailView):
@@ -50,6 +47,8 @@ def create_event(request, event_id=None):
 
     if request.POST and form.is_valid():
         form.save()
+        if event_id:
+            return redirect('events:event_detail', pk=event_id)
         return HttpResponseRedirect(reverse('events:index'))
 
     return render(request, template_name, {
@@ -58,6 +57,40 @@ def create_event(request, event_id=None):
         'form': form,
     })
 
+
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    task.delete()
+    return HttpResponseRedirect(reverse('events:index'))
+
+
+class TaskDetailView(generic.DetailView):
+    model = Task
+    template_name = 'events/task_detail.html'
+
+
+def create_task(request, task_id=None):
+    if task_id:
+        task = get_object_or_404(Task, pk=task_id)
+        template_name = 'events/edit_task.html'
+
+    else:
+        task = Task()
+        template_name = 'events/new_task.html'
+
+    form = TaskForm(request.POST or None, instance=task)
+
+    if request.POST and form.is_valid():
+        form.save()
+        if task_id:
+            return redirect('events:task_detail', pk=task_id)
+        return HttpResponseRedirect(reverse('events:index'))
+
+    return render(request, template_name, {
+        # 'error_message': "Please ensure all values are entered and correct.",
+        'task': task,
+        'form': form,
+    })
 
 
 '''

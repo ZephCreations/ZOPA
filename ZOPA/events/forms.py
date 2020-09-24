@@ -1,5 +1,6 @@
 from django.forms import ModelForm
-from .models import Event
+from django.utils import timezone
+from .models import Event, Task
 from .widgets import BootstrapDateTimePickerInput
 
 
@@ -30,3 +31,25 @@ class EventForm(ModelForm):
         }
 
 
+class TaskForm(ModelForm):
+    def clean(self):
+        cleaned_data = super().clean()
+        due_date = cleaned_data.get('due_date')
+
+        if due_date < timezone.now():
+            msg = "Due date cannot be in the past"
+            self.add_error('start_date', msg)
+
+    class Meta:
+        model = Task
+        fields = '__all__'
+        widgets = {
+            'due_date': BootstrapDateTimePickerInput(),
+        }
+        # widgets = {
+        #    'end_date': DateTimeInput(attrs={'type': 'datetime-local'}),
+        #    'start_date': DateTimeInput(attrs={'type': 'datetime-local'}),
+        # }
+        help_texts = {
+            'due_date': '<br> Accepted formats include: <br>"YYYY-mm-dd HH:MM:SS" eg. "2006-10-25 14:30:59" and <br>"YYYY-mm-dd HH:MM" eg. "2006-10-25 14:30"'
+        }
