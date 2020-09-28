@@ -38,11 +38,12 @@ class TaskForm(ModelForm):
 
         if due_date < timezone.now():
             msg = "Due date cannot be in the past"
-            self.add_error('start_date', msg)
+            self.add_error('due_date', msg)
 
     class Meta:
         model = Task
         fields = '__all__'
+        exclude = ('recommended_priority',)
         widgets = {
             'due_date': BootstrapDateTimePickerInput(),
         }

@@ -55,4 +55,34 @@
 
     <a href="{% url 'events:create_task' %}">Create new Task</a>
 
+    <br><br><hr>
+    <h1>Optimized Tasks</h1>
+    <table>
+
+        <tr>
+            <th>Tasks:</th>
+            <th>Priority:</th>
+            <th>Due:</th>
+            <th>Time needed:</th>
+            <th>Recommended priority:</th>
+            <th>Recommended start time:</th>
+        </tr>
+
+        {% if optimized_task_list %}
+            {% for task in optimized_task_list %}
+                <tr>
+                    <td><a href="{% url 'events:task_detail' task.id %}">{{ task.task_name }}</a></td>
+                    <td>{{ task.get_priority_display }}</td>
+                    <td>{{ task.due_date|date:"D d M Y" }} {{ task.due_date|time }}</td>
+                    <td>{{ task.time_for_completion }}</td>
+                    <td>{{ task.recommended_priority }}</td>
+                    <td>{{ task.recommended_start_time }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <p>No tasks are available.</p>
+        {% endif %}
+
+    </table>
+
 {% endblock content %}

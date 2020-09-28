@@ -34,16 +34,20 @@ class Event(models.Model):
 
 class Task(models.Model):
     PRIORITY_CHOICES = [
-        ('H', 'High'),
-        ('M', 'Medium'),
-        ('L', 'Low'),
+        (1, 'High'),
+        (2, 'Medium'),
+        (3, 'Low'),
     ]
 
     task_name = models.CharField(max_length=200)
     task_description = models.TextField(blank=True)
     due_date = models.DateTimeField('Date to be completed by')
-    time_for_completion = models.DurationField('Time needed to complete task', default='00:00:00', help_text='Format: HH:MM:SS')
-    priority = models.CharField(max_length=1, choices=PRIORITY_CHOICES, default='M')
+    time_for_completion = models.DurationField('Time needed to complete task', default='00:00:00', help_text='Format: '
+                                                                                                             'HH:MM:SS')
+    priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2)
+
+    recommended_priority = models.IntegerField(default=99999, editable=False)
+    recommended_start_time = models.DateTimeField(editable=False, default=timezone.now())
 
     def __str__(self):
         return self.task_name
