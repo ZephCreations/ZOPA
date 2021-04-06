@@ -1,8 +1,14 @@
-import datetime
+from datetime import timedelta, datetime
 
 from django.db import models
 from django.utils import timezone
 
+
+def default_start_time():
+    now = timezone.now()
+    print(now)
+    start = now.replace(hour=22, minute=0, second=0, microsecond=0)
+    return start if start > now else start + timedelta(days=1)
 
 # Create your models here.
 class Event(models.Model):
@@ -42,12 +48,13 @@ class Task(models.Model):
     task_name = models.CharField(max_length=200)
     task_description = models.TextField(blank=True)
     due_date = models.DateTimeField('Date to be completed by')
-    time_for_completion = models.DurationField('Time needed to complete task', default='00:00:00', help_text='Format: '
-                                                                                                             'HH:MM:SS')
+    time_for_completion = models.DurationField('Time needed to complete task', default='00:00:00',
+                                               help_text='Format: HH:MM:SS')
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2)
 
     recommended_priority = models.IntegerField(default=99999, editable=False)
-    recommended_start_time = models.DateTimeField(editable=False, default=timezone.now())
+    recommended_start_time = models.DateTimeField(editable=False, default=datetime(2006, 6, 13, 16, 0, 0, 0))
 
     def __str__(self):
         return self.task_name
+
