@@ -2,6 +2,9 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.utils.dateparse import parse_duration
 import datetime
@@ -12,6 +15,7 @@ from .models import Event, Task
 # Create your views here.
 
 
+@method_decorator(login_required, name='dispatch')
 class IndexView(generic.ListView):
     template_name = 'events/index.html'
 
@@ -20,15 +24,25 @@ class IndexView(generic.ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['events_list'] = Event.objects.order_by('-start_date')
-        context['tasks_list'] = Task.objects.order_by('priority')
-        context['optimized_task_list'] = optimize_tasks(Task.objects)
+        user = self.request.user
+        context['events_list'] = user.event_set.filter(user=user).order_by('-start_date')
+        context['tasks_list'] = user.task_set.filter(user=user).order_by('priority')
+        context['optimized_task_list'] = optimize_tasks(user.task_set.filter(user=user))
+        # context['events_list'] = Event.order_by('-start_date')
+        # context['tasks_list'] = Task.objects.order_by('priority')
+        # context['optimized_task_list'] = optimize_tasks(Task.objects)
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class EventDetailView(generic.DetailView):
     model = Event
     template_name = 'events/event_detail.html'
+
+    def get_queryset(self, *args, **kwargs):
+        return super(EventDetailView, self).get_queryset(
+            *args, **kwargs
+        ).filter(user=self.request.user)
 
 
 def delete_event(request, event_id):
@@ -37,6 +51,7 @@ def delete_event(request, event_id):
     return HttpResponseRedirect(reverse('events:index'))
 
 
+@login_required
 def create_event(request, event_id=None):
     if event_id:
         event = get_object_or_404(Event, pk=event_id)
@@ -49,6 +64,7 @@ def create_event(request, event_id=None):
     form = EventForm(request.POST or None, instance=event)
 
     if request.POST and form.is_valid():
+        form.instance.user = request.user
         form.save()
         if event_id:
             return redirect('events:event_detail', pk=event_id)
@@ -71,7 +87,13 @@ class TaskDetailView(generic.DetailView):
     model = Task
     template_name = 'events/task_detail.html'
 
+    def get_queryset(self, *args, **kwargs):
+        return super(EventDetailView, self).get_queryset(
+            *args, **kwargs
+        ).filter(user=self.request.user)
 
+
+@login_required
 def create_task(request, task_id=None):
     if task_id:
         task = get_object_or_404(Task, pk=task_id)
@@ -84,6 +106,7 @@ def create_task(request, task_id=None):
     form = TaskForm(request.POST or None, instance=task)
 
     if request.POST and form.is_valid():
+        form.instance.user = request.user
         form.save()
         if task_id:
             return redirect('events:task_detail', pk=task_id)

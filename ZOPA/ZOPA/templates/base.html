@@ -28,6 +28,7 @@
 <header>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #590684">
+        <!-- Title -->
         <a class="navbar-brand" href="{% url 'pages:index' %}">ZOPA website</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -35,14 +36,23 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
+                <!-- Active link -->
               <a class="nav-link" href="{% url 'events:index' %}">Calender <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
+                <!-- Normal Link -->
               <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item">
+                <!-- Disabled Link -->
               <a class="nav-link disabled" href="#">Disabled</a>
             </li>
+            {% if user.is_staff %}
+                <!-- Hidden Link for Admin -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}">Admin Page</a>
+                </li>
+            {% endif %}
           </ul>
           <form class="form-inline mt-2 mt-md-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">

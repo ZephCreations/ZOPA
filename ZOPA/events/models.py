@@ -2,6 +2,7 @@ from datetime import timedelta, datetime
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 def default_start_time():
@@ -10,8 +11,10 @@ def default_start_time():
     start = now.replace(hour=22, minute=0, second=0, microsecond=0)
     return start if start > now else start + timedelta(days=1)
 
+
 # Create your models here.
 class Event(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     REPEAT_BY_CHOICES = [
         ('D', 'Daily'),
         ('W', 'Weekly'),
@@ -39,6 +42,7 @@ class Event(models.Model):
 
 
 class Task(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     PRIORITY_CHOICES = [
         (1, 'High'),
         (2, 'Medium'),

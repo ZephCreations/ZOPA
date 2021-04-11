@@ -17,6 +17,7 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = '__all__'
+        exclude = ('user',)
         widgets = {
             'end_date': BootstrapDateTimePickerInput(),
             'start_date': BootstrapDateTimePickerInput(),
@@ -43,7 +44,7 @@ class TaskForm(ModelForm):
     class Meta:
         model = Task
         fields = '__all__'
-        exclude = ('recommended_priority',)
+        exclude = ('recommended_priority','user',)
         widgets = {
             'due_date': BootstrapDateTimePickerInput(),
         }

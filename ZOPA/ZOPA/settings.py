@@ -128,6 +128,7 @@ STATIC_URL = '/static/'
 
 
 # AUTHENTICATION
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'pages:index'
 LOGOUT_REDIRECT_URL = 'pages:index'
 
